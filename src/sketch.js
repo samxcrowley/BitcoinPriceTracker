@@ -42,6 +42,27 @@ function draw() {
         
     }
     
+    let range = highestValue - lowestValue;
+    let xInterval = DRAW_WIDTH / valuesArr.length;
+    
+    for (var i = 0; i < valuesArr.length; i++) {
+        
+        let val = valuesArr[i];
+        let nextVal = valuesArr[i + 1];
+        
+        let x = LOWX + (i * xInterval);
+        let nextX = LOWX + ((i + 1) * xInterval);
+        
+        let y = map(val, lowestValue, highestValue, LOWY, HIGHY);
+        let nextY = map(nextVal, lowestValue, highestValue, LOWY, HIGHY);
+        
+        if (nextY < y) stroke(0, 255, 0);
+        else stroke(255, 0, 0);
+        
+        line(x, y, nextX, nextY);
+        
+    }
+    
 }
 
 function retrieveCurrentPrice() {
