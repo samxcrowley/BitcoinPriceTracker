@@ -43,6 +43,11 @@ function draw() {
     noStroke();
     fill(255);
     
+    textAlign(RIGHT);
+    textFont(LIGHTITALIC_FONT);
+    textSize(FONT_SIZE * 0.5);
+    text("current price updated\nevery minute", WIDTH - 20, 30);
+    
     textAlign(CENTER);
     
     textFont(REGULAR_FONT);
@@ -100,7 +105,29 @@ function draw() {
         
         line(x, y, nextX, nextY);
         
+        noStroke();
+        if (val == lowestValue) {
+            
+            fill(255, 50, 30);
+            circle(x, y, 10);
+            textAlign(CENTER);
+            textSize(14);
+            textFont(BOLD_FONT);
+            text(str(lowestValue), x, y + 20);
+            
+        } else if (val == highestValue) {
+            
+            fill(0, 255, 100);
+            circle(x, y, 10);
+            textAlign(CENTER);
+            textSize(14);
+            textFont(BOLD_FONT);
+            text(str(highestValue), x, y - 20);
+            
+        }
+        
     }
+    
     
 }
 
