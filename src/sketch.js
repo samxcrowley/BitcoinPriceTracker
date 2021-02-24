@@ -18,10 +18,14 @@ let FONT_SIZE = 30;
 let currentPrice;
 let historicalPrices;
 
+let lastPrice;
+let priceChangeTimer;
+let priceChanged;
+
 function setup() {
     
     createCanvas(WIDTH, HEIGHT);
-    frameRate(1);
+    frameRate(5);
     
     REGULAR_FONT = loadFont("font/Montserrat-Regular.otf");
     LIGHT_FONT = loadFont("font/Montserrat-Light.otf");
@@ -54,10 +58,21 @@ function draw() {
     textSize(FONT_SIZE * 0.75);
     text("Current Price:", WIDTH / 2, 40);
     
+    if (currentPrice.bpi.USD.rate != lastPrice) {
+        console.log('yes');
+        priceChangeTimer = 0;
+    }
+    
+    fill(255, 0 + (priceChangeTimer * 20), 0 + (priceChangeTimer * 20));
+    priceChangeTimer++;
+    
+    lastPrice = currentPrice.bpi.USD.rate;
+    
     textFont(BOLD_FONT);
     textSize(FONT_SIZE);
     text(currentPrice.bpi.USD.rate, WIDTH / 2, 70);
     
+    fill(255);
     textFont(LIGHTITALIC_FONT);
     textSize(FONT_SIZE * 0.5);
     text("(BTC / USD)", WIDTH / 2, 90);
@@ -122,7 +137,7 @@ function draw() {
             textAlign(CENTER);
             textSize(14);
             textFont(BOLD_FONT);
-            text(str(highestValue), x, y - 20);
+            text(str(highestValue), x, y - 10);
             
         }
         
