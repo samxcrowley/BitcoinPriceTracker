@@ -1,15 +1,18 @@
 let WIDTH = 900;
 let HEIGHT = 600;
 
-let LOWX = 50;
-let HIGHX = WIDTH - 50;
-let LOWY = HEIGHT - 50;
+let LOWX = 100;
+let HIGHX = WIDTH - 100;
+let LOWY = HEIGHT - 100;
 let HIGHY = 200;
 
 let DRAW_WIDTH = HIGHX - LOWX;
 let DRAW_HEIGHT = HIGHY - LOWY;
 
 let REGULAR_FONT;
+let LIGHT_FONT;
+let LIGHTITALIC_FONT;
+let BOLD_FONT;
 let FONT_SIZE = 30;
 
 let currentPrice;
@@ -21,6 +24,9 @@ function setup() {
     frameRate(1);
     
     REGULAR_FONT = loadFont("font/Montserrat-Regular.otf");
+    LIGHT_FONT = loadFont("font/Montserrat-Light.otf");
+    LIGHTITALIC_FONT = loadFont("font/Montserrat-LightItalic.otf");
+    BOLD_FONT = loadFont("font/Montserrat-Bold.otf");
     
     retrieveCurrentPrice();
     retrieveHistoricalPrices();
@@ -32,16 +38,30 @@ function draw() {
     background(17);
     
     // draw current price
-    noStroke();
-    fill(255);
-    textFont(REGULAR_FONT);
-    textSize(FONT_SIZE);
     retrieveCurrentPrice();
     
-    let currentPriceString = "Current Price (BTC/USD): " + currentPrice.bpi.USD.rate;
-    let strWidth = textWidth(currentPriceString);
+    noStroke();
+    fill(255);
     
-    text(currentPriceString, (DRAW_WIDTH / 2) - (strWidth / 2), 50);
+    textAlign(CENTER);
+    
+    textFont(REGULAR_FONT);
+    textSize(FONT_SIZE * 0.75);
+    text("Current Price:", WIDTH / 2, 40);
+    
+    textFont(BOLD_FONT);
+    textSize(FONT_SIZE);
+    text(currentPrice.bpi.USD.rate, WIDTH / 2, 70);
+    
+    textFont(LIGHTITALIC_FONT);
+    textSize(FONT_SIZE * 0.5);
+    text("(BTC / USD)", WIDTH / 2, 90);
+    
+    
+    // draw CoinDesk watermark
+    textFont(LIGHT_FONT);
+    textSize(FONT_SIZE * 0.6);
+    text("Powered by CoinDesk", WIDTH / 2, HEIGHT - 30);
     
     
     // draw historical prices
