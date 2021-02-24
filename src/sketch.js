@@ -9,6 +9,9 @@ let HIGHY = 200;
 let DRAW_WIDTH = HIGHX - LOWX;
 let DRAW_HEIGHT = HIGHY - LOWY;
 
+let REGULAR_FONT;
+let FONT_SIZE = 30;
+
 let currentPrice;
 let historicalPrices;
 
@@ -16,6 +19,8 @@ function setup() {
     
     createCanvas(WIDTH, HEIGHT);
     frameRate(1);
+    
+    REGULAR_FONT = loadFont("font/Montserrat-Regular.otf");
     
     retrieveCurrentPrice();
     retrieveHistoricalPrices();
@@ -25,8 +30,21 @@ function setup() {
 function draw() {
     
     background(17);
-    strokeWeight(5);
     
+    // draw current price
+    noStroke();
+    fill(255);
+    textFont(REGULAR_FONT);
+    textSize(FONT_SIZE);
+    retrieveCurrentPrice();
+    
+    let currentPriceString = "Current Price (BTC/USD): " + currentPrice.bpi.USD.rate;
+    let strWidth = textWidth(currentPriceString);
+    
+    text(currentPriceString, (DRAW_WIDTH / 2) - (strWidth / 2), 50);
+    
+    
+    // draw historical prices
     let bpi = historicalPrices.bpi;
     let valuesArr = [];
     
@@ -56,8 +74,9 @@ function draw() {
         let y = map(val, lowestValue, highestValue, LOWY, HIGHY);
         let nextY = map(nextVal, lowestValue, highestValue, LOWY, HIGHY);
         
-        if (nextY < y) stroke(0, 255, 0);
-        else stroke(255, 0, 0);
+        strokeWeight(5);
+        if (nextY < y) stroke(0, 255, 100);
+        else stroke(255, 50, 30);
         
         line(x, y, nextX, nextY);
         
@@ -70,7 +89,6 @@ function retrieveCurrentPrice() {
     let url = 'https://api.coindesk.com/v1/bpi/currentprice.json';
     httpGet(url, 'json', false, function(response) {
         currentPrice = response;
-        console.log(currentPrice);
     });
     
 }
@@ -80,7 +98,6 @@ function retrieveHistoricalPrices() {
     let url = 'https://api.coindesk.com/v1/bpi/historical/close.json';
     httpGet(url, 'json', false, function(response) {
         historicalPrices = response;
-        console.log(historicalPrices);
     });
     
 }
