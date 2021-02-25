@@ -32,7 +32,6 @@ function setup() {
     LIGHTITALIC_FONT = loadFont("font/Montserrat-LightItalic.otf");
     BOLD_FONT = loadFont("font/Montserrat-Bold.otf");
     
-    retrieveCurrentPrice();
     retrieveHistoricalPrices();
     
 }
@@ -43,6 +42,9 @@ function draw() {
     
     // draw current price
     retrieveCurrentPrice();
+    
+    // if price hasn't had time to load yet or is otherwise null, don't draw
+    if (currentPrice === undefined || currentPrice === null) return;
     
     noStroke();
     fill(255);
