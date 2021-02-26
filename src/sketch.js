@@ -18,6 +18,9 @@ let FONT_SIZE = 30;
 let currentPrice;
 let historicalPrices;
 
+var startDate;
+var endDate;
+
 let lastPrice;
 let priceChangeTimer;
 let priceChanged;
@@ -61,7 +64,6 @@ function draw() {
     text("Current Price:", WIDTH / 2, 40);
     
     if (currentPrice.bpi.USD.rate != lastPrice) {
-        console.log('yes');
         priceChangeTimer = 0;
     }
     
@@ -122,6 +124,7 @@ function draw() {
         
         line(x, y, nextX, nextY);
         
+        // draw lowest and highest value points
         noStroke();
         if (val == lowestValue) {
             
@@ -141,6 +144,24 @@ function draw() {
             textFont(BOLD_FONT);
             text(str(highestValue), x, y - 10);
             
+        }
+        
+        // draw start and end dates
+        if (historicalPrices !== undefined) {
+            let dates = Object.keys(historicalPrices.bpi);
+            startDate = dates[0];
+            endDate = dates[dates.length - 1];
+        }
+        
+        textSize(15);
+        textFont(REGULAR_FONT);
+        fill(255);
+        if (i == 0) {
+            textAlign(LEFT);
+            text(startDate, 20, HEIGHT / 2);
+        } else if (i == valuesArr.length - 1) {
+            textAlign(RIGHT);
+            text(endDate, WIDTH - 20, HEIGHT / 2);
         }
         
     }
